@@ -1,0 +1,12 @@
+#=======================
+# Common Settings
+#=======================
+
+## OAuth Token(Required)
+token: 
+
+## DeviceName Setting(default: hap-nature-remo)
+# name: hap-nature-remo
+
+## HomeKit Pin Code(default: 12344321)
+# pin: "12344321" # should be string
