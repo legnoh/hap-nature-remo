@@ -482,8 +482,10 @@ func getAppliances(nr *natureremo.Client) NrAppliances {
 
 	nrctx := context.Background()
 	now := time.Now()
+	delta := now.Sub(nrAppliances.UpdatedAt).Seconds()
+	log.Debugf("delta: %2f(%t)", delta, delta > 10)
 
-	if now.Sub(nrAppliances.UpdatedAt).Seconds() > 10 {
+	if delta > 10 {
 		if aps, err := nr.ApplianceService.GetAll(nrctx); err != nil {
 			log.Error(err)
 			return nrAppliances
