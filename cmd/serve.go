@@ -491,10 +491,11 @@ func getAppliances(nr *natureremo.Client) NrAppliances {
 			return nrAppliances
 		} else {
 			log.Info("Get Latest Appliances Successful.")
-			return NrAppliances{
+			nrAppliances = NrAppliances{
 				Appliances: aps,
 				UpdatedAt:  time.Now(),
 			}
+			return nrAppliances
 		}
 	}
 	log.Debugf("Using cached Appliances responses: %s", nrAppliances.UpdatedAt)
@@ -514,10 +515,11 @@ func getDevices(nr *natureremo.Client) NrDevices {
 			return nrDevices
 		} else {
 			log.Info("Get Latest Devices Successful.")
-			return NrDevices{
+			nrDevices = NrDevices{
 				Devices:   dvs,
 				UpdatedAt: time.Now(),
 			}
+			return nrDevices
 		}
 	}
 	log.Debugf("Using cached Devices responses: %s", nrDevices.UpdatedAt)
