@@ -37,11 +37,11 @@ func NewSensor(nr *natureremo.Client, device *natureremo.Device) Sensor {
 		temperatureSensor.CurrentTemperature.SetValue(te.Value)
 
 		temperatureSensor.CurrentTemperature.ValueRequestFunc = func(*http.Request) (interface{}, int) {
-			log.Debug("Get now Temperature Request")
+			log.Debugf("%s: Get now Temperature Request", device.Name)
 			devices := util.GetDevices(nr)
 			for _, remoteDevice := range devices.Devices {
 				if remoteDevice.Name == device.Name {
-					temp := device.NewestEvents[natureremo.SensorTypeTemperature].Value
+					temp := remoteDevice.NewestEvents[natureremo.SensorTypeTemperature].Value
 					log.Infof("%s: Get now Temperature Request Successful: %.1f", device.Name, temp)
 					return temp, 0
 				}
@@ -58,11 +58,11 @@ func NewSensor(nr *natureremo.Client, device *natureremo.Device) Sensor {
 		humiditySensor.CurrentRelativeHumidity.SetValue(hu.Value)
 
 		humiditySensor.CurrentRelativeHumidity.ValueRequestFunc = func(*http.Request) (interface{}, int) {
-			log.Debug("Get now Humidity Request")
+			log.Debugf("%s: Get now Humidity Request", device.Name)
 			devices := util.GetDevices(nr)
 			for _, remoteDevice := range devices.Devices {
 				if remoteDevice.Name == device.Name {
-					humi := device.NewestEvents[natureremo.SensorTypeHumidity].Value
+					humi := remoteDevice.NewestEvents[natureremo.SensorTypeHumidity].Value
 					log.Infof("%s: Get now Humidity Request Successful: %.0f", device.Name, humi)
 					return humi, 0
 				}
@@ -82,11 +82,11 @@ func NewSensor(nr *natureremo.Client, device *natureremo.Device) Sensor {
 		lightSensor.CurrentAmbientLightLevel.SetValue(il.Value)
 
 		lightSensor.CurrentAmbientLightLevel.ValueRequestFunc = func(*http.Request) (interface{}, int) {
-			log.Debug("Get now LightLevel Request")
+			log.Debugf("%s: Get now LightLevel Request", device.Name)
 			devices := util.GetDevices(nr)
 			for _, remoteDevice := range devices.Devices {
 				if remoteDevice.DeviceCore.Name == device.DeviceCore.Name {
-					illu := device.NewestEvents[natureremo.SensorTypeIllumination].Value
+					illu := remoteDevice.NewestEvents[natureremo.SensorTypeIllumination].Value
 					log.Infof("%s: Get now Lightlevel Request Successful: %.0f", device.Name, illu)
 					return illu, 0
 				}
@@ -114,11 +114,11 @@ func NewSensor(nr *natureremo.Client, device *natureremo.Device) Sensor {
 		}
 
 		motionSensor.MotionDetected.ValueRequestFunc = func(*http.Request) (interface{}, int) {
-			log.Debug("Get now MotionSensor Request")
+			log.Debugf("%s: Get now MotionSensor Request", device.Name)
 			devices := util.GetDevices(nr)
 			for _, remoteDevice := range devices.Devices {
 				if remoteDevice.Name == device.Name {
-					state := device.NewestEvents[natureremo.SensorTypeTemperature]
+					state := remoteDevice.NewestEvents[natureremo.SensorTypeTemperature]
 					if state.Value == 0 {
 						log.Infof("%s: Get now Motion Request Successful: %t", device.Name, false)
 						return false, 0
