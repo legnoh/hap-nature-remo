@@ -3,17 +3,17 @@
 [![Static Badge](https://img.shields.io/badge/homebrew-legnoh%2Fetc%2Fhap--nature--remo-orange?logo=apple)](https://github.com/legnoh/homebrew-etc/blob/main/Formula/hap-nature-remo.rb)
 [![Static Badge](https://img.shields.io/badge/image-ghcr.io%2Flegnoh%2Fhap--nature--remo-blue?logo=github)](https://github.com/legnoh/hap-nature-remo/pkgs/container/hap-nature-remo)
 
-![IMG_6950](https://github.com/legnoh/hap-nature-remo/assets/706834/a4a4e9ae-43b1-4948-ada6-641b75a35efe)
+<img width="400" alt="IMG_6950" src="https://github.com/legnoh/hap-nature-remo/assets/706834/a4a4e9ae-43b1-4948-ada6-641b75a35efe">
 
 [Nature Remo](https://nature.global/nature-remo/) で登録したデバイスを HomeKit 経由で操作できるようになるアプリケーションです。  
 現在、以下の操作に対応しています。
 
 - エアコン
 - リモコン式ファン(扇風機・シーリングファン)
-- センサー各種(温度・湿度・照度・人感) 
+- 内蔵センサー各種(温度・湿度・照度・人感) 
 
-デバイスを個別に設定する必要がなく、アクセストークンを指定するだけで、  
-対応しているアクセサリーが自動的に検出されて登録されるようになっています。
+デバイスを個別に設定する必要がなく、設定ファイルにアクセストークンを指定するだけで、  
+対応しているアクセサリーが自動的に検出されて登録されるため、気軽にお使い頂けます。
 
 ## Usage
 
@@ -69,7 +69,7 @@ docker run \
 
 |HomeKit|NatureRemo|
 |--|--|
-|![IMG_6946](https://github.com/legnoh/hap-nature-remo/assets/706834/3764c5c8-3414-4548-a25d-afb6e433086b)|![IMG_6951](https://github.com/legnoh/hap-nature-remo/assets/706834/5c35d7bd-e956-4227-993c-465a376a9a08)|
+|<img width="300" alt="IMG_6946" src="https://github.com/legnoh/hap-nature-remo/assets/706834/3764c5c8-3414-4548-a25d-afb6e433086b">|<img width="300" alt="IMG_6951" src="https://github.com/legnoh/hap-nature-remo/assets/706834/5c35d7bd-e956-4227-993c-465a376a9a08">|
 
 
 - 登録されている全てのエアコンが自動的に解釈されて登録されます。
@@ -84,7 +84,7 @@ docker run \
 
 |HomeKit|NatureRemo|
 |--|--|
-|![IMG_6948](https://github.com/legnoh/hap-nature-remo/assets/706834/7c7bdbd7-c881-4679-8fb2-69e9da4c082f)|![IMG_6949](https://github.com/legnoh/hap-nature-remo/assets/706834/9a8e4aee-0907-4e2d-bdd2-f8834409e03b)|
+|<img width="300" alt="IMG_6948" src="https://github.com/legnoh/hap-nature-remo/assets/706834/7c7bdbd7-c881-4679-8fb2-69e9da4c082f">|<img width="300" alt="IMG_6949" src="https://github.com/legnoh/hap-nature-remo/assets/706834/9a8e4aee-0907-4e2d-bdd2-f8834409e03b">|
 
 - リモコンとして登録され、かつ「扇風機」のアイコンがついているものを自動的にファンと解釈して登録されます。
 - 電源オンオフ・風量調整・回転方向の設定に対応しています。
@@ -99,7 +99,7 @@ docker run \
 
 ### センサー各種(温度・湿度・照度・人感)
 
-![IMG_6947](https://github.com/legnoh/hap-nature-remo/assets/706834/342e4fb3-d261-4e60-881f-bb506087f29f)
+<img width="300" alt="IMG_6947" src="https://github.com/legnoh/hap-nature-remo/assets/706834/342e4fb3-d261-4e60-881f-bb506087f29f">
 
 - センサー情報が取れる NatureRemo デバイスがあった場合、自動的に解釈されて登録されます。
 - 温度・湿度・照度・人感 の4つのセンサーに対応しています。
@@ -109,7 +109,7 @@ docker run \
 - 人感センサーはやや特殊で、5分以内に動作を感知した場合にのみ反応します。
 
 
-## その他注意事項
+## 注意事項
 
 - デバイスの名前は Nature Remo でつけたものがそのまま引き継がれます。
 - [Nature Remo Cloud API の利用制限](https://developer.nature.global/#リクエスト制限) を回避するため、同じリソースの取得を5秒に1回に絞るようにしています。
@@ -118,3 +118,18 @@ docker run \
 - オートメーションなどで指定した際、同時に複数デバイスへのリクエストが発生し、処理が安定しなくなることを防ぐために、意図的に揺らぎを持たせています。
   - 命令を受けてから最大5秒のスリープをランダムに仕込んでいます。
   - そのため、少し処理が遅く感じるかもしれませんが、ここは仕様のためご理解ください。
+- アップデート時など、動作がおかしくなったときは起動時に 一度 `--reset` オプションをつけて起動すると改善することがあります。  
+  (ただし、Homeアプリ上に設定したブリッジは削除する必要があり、オートメーションなども再設定が必要になります)
+  ```sh
+  hap-nature-remo serve --reset
+  ```
+- macOS では、起動時に下記のようなネットワークアクセスの許可を求めるダイアログが表示されますので、"Allow"を押してください。  
+(アップデートを行う度に出現しますので注意してください)  
+<img width="260" alt="Screenshot 2023-07-30 at 19 51 35" src="https://github.com/legnoh/hap-nature-remo/assets/706834/6ac1347b-ef64-4f2e-9a51-831bb2be3807">
+
+## 余談
+
+- このアプリを作ったのは、 NatureRemo Nano の Matter 対応では、センサーがついていない Home アプリでの見た目が微妙だったことが発端です。
+  - FYI: [Matterでやりたかったけどできなかったこと - Nature Engineering Blog](https://engineering.nature.global/entry/blog-fes-2023-matter-matters)
+- 温度センサーつきの Matter 対応 NatureRemo が発売され、対応デバイスが広がり次第、このアプリはアーカイブにする予定です。
+- 素晴らしい製品を世に送り続けている Nature Inc. に心から感謝します。

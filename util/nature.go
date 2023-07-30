@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -88,9 +89,9 @@ func SendAirconRequest(nr *natureremo.Client, ac *natureremo.Appliance, mode *na
 	nrctx := context.Background()
 
 	// (リクエストを散らすため、5秒以内でランダム秒待つ処理を加える)
-	// wait := rand.Intn(5)
-	// log.Debugf("SendAirconRequest: Sleeping %d seconds...\n", wait)
-	// time.Sleep(time.Duration(wait) * time.Second)
+	wait := rand.Intn(5)
+	log.Debugf("SendAirconRequest: Sleeping %d seconds...\n", wait)
+	time.Sleep(time.Duration(wait) * time.Second)
 
 	return nr.ApplianceService.UpdateAirConSettings(nrctx, ac, mode)
 }
@@ -102,9 +103,9 @@ func SendSignalRequest(nr *natureremo.Client, signal *natureremo.Signal) error {
 	nrctx := context.Background()
 
 	// (リクエストを散らすため、5秒以内でランダム秒待つ処理を加える)
-	// wait := rand.Intn(5)
-	// log.Debugf("SendSignalRequest: Sleeping %d seconds...\n", wait)
-	// time.Sleep(time.Duration(wait) * time.Second)
+	wait := rand.Intn(5)
+	log.Debugf("SendSignalRequest: Sleeping %d seconds...\n", wait)
+	time.Sleep(time.Duration(wait) * time.Second)
 
 	return nr.SignalService.Send(nrctx, signal)
 }
