@@ -1,8 +1,15 @@
-## OAuth Token(Required)
+#===========================
+# hap-nature-remo 設定ファイル
+#===========================
+
+## アクセストークン(必須)
+## 下記サイトを参考に事前に取得して、起動前に設定しておいてください。
+## https://developer.nature.global/#oauth2
 token: 
 
-## DeviceName Setting(default: hap-nature-remo)
-# name: hap-nature-remo
+## ブリッジ名(デフォルト: hap-nature-remo)
+# name: hap-nature-remo 
 
-## HomeKit Pin Code(default: 12344321)
-# pin: "12344321" # should be string
+## HomeKit PINコード(デフォルト: 12344321)
+## 指定する場合、必ず " で括って書いてください
+# pin: "12344321"
