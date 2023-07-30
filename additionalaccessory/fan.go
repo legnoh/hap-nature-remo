@@ -15,10 +15,10 @@ import (
 
 type Fan struct {
 	*accessory.A
-	Fun *service.Fan
+	Fan *service.Fan
 }
 
-func NewFan(nr *natureremo.Client, appliance *natureremo.Appliance) *accessory.Fan {
+func NewFan(nr *natureremo.Client, appliance *natureremo.Appliance) Fan {
 
 	log := logrus.New()
 	log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
@@ -27,9 +27,14 @@ func NewFan(nr *natureremo.Client, appliance *natureremo.Appliance) *accessory.F
 	speedRe := regexp.MustCompile(`^ico_number_(\d)$`)
 	directionRe := regexp.MustCompile(`^ico_(.*)ward$`)
 
-	a := accessory.NewFan(accessory.Info{
+	acceInfo := accessory.Info{
 		Name: appliance.Nickname,
-	})
+	}
+
+	a := Fan{
+		A:   accessory.New(acceInfo, accessory.TypeFan),
+		Fan: service.NewFan(),
+	}
 
 	signals, err := nr.SignalService.GetAll(nrctx, appliance)
 	if err != nil {
@@ -126,5 +131,7 @@ func NewFan(nr *natureremo.Client, appliance *natureremo.Appliance) *accessory.F
 		}
 		a.Fan.AddC(direction.C)
 	}
+
+	a.AddS(a.Fan.S)
 	return a
 }

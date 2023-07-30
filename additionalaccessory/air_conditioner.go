@@ -17,7 +17,7 @@ type AirConditioner struct {
 	HeaterCooler *service.HeaterCooler
 }
 
-func NewAirConditioner(nr *natureremo.Client, ac *natureremo.Appliance, devices []*natureremo.Device) *AirConditioner {
+func NewAirConditioner(nr *natureremo.Client, ac *natureremo.Appliance, devices []*natureremo.Device) AirConditioner {
 
 	log := logrus.New()
 	log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
@@ -134,7 +134,8 @@ func NewAirConditioner(nr *natureremo.Client, ac *natureremo.Appliance, devices 
 	for _, device := range devices {
 		if val, found := device.NewestEvents[natureremo.SensorTypeTemperature]; found {
 			if device.ID == ac.Device.ID {
-				a.HeaterCooler.CurrentTemperature.SetValue(val.Value)
+				temp = val.Value
+				a.HeaterCooler.CurrentTemperature.SetValue(temp)
 			}
 		}
 	}
@@ -142,9 +143,12 @@ func NewAirConditioner(nr *natureremo.Client, ac *natureremo.Appliance, devices 
 	// Natureデバイスが温度計を持っていないものだった場合、別の端末で計測したものがあったら代わりに使う
 	if temp == 0 {
 		for _, device := range devices {
-			if val, found := device.NewestEvents[natureremo.SensorTypeTemperature]; found {
-				log.Warnf("%s don't have temperature sensor. Using %s sensor instead for %s", ac.Device.Name, device.Name, ac.Nickname)
-				a.HeaterCooler.CurrentTemperature.SetValue(val.Value)
+			if temp == 0 {
+				if val, found := device.NewestEvents[natureremo.SensorTypeTemperature]; found {
+					log.Warnf("%s don't have temperature sensor. Using %s sensor instead for %s", ac.Device.Name, device.Name, ac.Nickname)
+					temp = val.Value
+					a.HeaterCooler.CurrentTemperature.SetValue(temp)
+				}
 			}
 		}
 	}
@@ -195,6 +199,7 @@ func NewAirConditioner(nr *natureremo.Client, ac *natureremo.Appliance, devices 
 		log.Warnf("%s: Get now AirCon Temperature Request devices was not found(%s)", ac.Nickname, ac.Device.Name)
 		return nil, -1
 	}
+
 	a.AddS(a.HeaterCooler.S)
-	return &a
+	return a
 }

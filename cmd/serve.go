@@ -78,8 +78,8 @@ func startServer(cmd *cobra.Command, args []string) {
 	// ブリッジ作成
 	bridge := accessory.NewBridge(accessory.Info{
 		Name:         conf.Name,
-		Firmware:     version,
 		Manufacturer: "@legnoh",
+		Model:        version,
 	})
 
 	// Natureデバイス一覧を取得
@@ -89,7 +89,8 @@ func startServer(cmd *cobra.Command, args []string) {
 	// センサーが1つでもあった場合はSensorアプライアンスを作る
 	for _, device := range nrDevices.Devices {
 		if len(device.NewestEvents) != 0 {
-			a := additionalaccessory.NewSensor(nr, *device)
+			log.Infof("Sensor device detected: %s", device.Name)
+			a := additionalaccessory.NewSensor(nr, device)
 			accessories = append(accessories, a.A)
 		}
 	}
