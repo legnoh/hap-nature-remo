@@ -2,10 +2,12 @@ package cmd
 
 import (
 	"context"
+	"net"
 	"os"
 	"os/signal"
 	"regexp"
 	"syscall"
+	"time"
 
 	"github.com/brutella/hap"
 	"github.com/brutella/hap/accessory"
@@ -71,6 +73,19 @@ func preStartServer(cmd *cobra.Command, args []string) {
 			log.Infof("Reset FileStore Successfully: %s", fsStoreDirectory)
 		}
 	}
+
+	// 起動直後など、DNS解決ができないタイミングで自動起動した際の挙動をコントロールするため、
+	// api.nature.global が解決できるようになるまで10秒ずつ待つ
+	dnsLookup := false
+	for !dnsLookup {
+		log.Debug("DNS resolve check start")
+		if _, err := net.LookupIP("api.nature.global"); err != nil {
+			log.Warnf("DNS resolve check failed: %s", err)
+			time.Sleep(10 * time.Second)
+		}
+		dnsLookup = true
+	}
+	log.Info("DNS resolve check successfully")
 }
 
 func startServer(cmd *cobra.Command, args []string) {
