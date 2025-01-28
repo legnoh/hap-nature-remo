@@ -60,7 +60,8 @@ brews:
         Please check usage at README:
             https://github.com/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}/blob/main/README.md
     homepage: "https://github.com/{{ .Env.GITHUB_REPOSITORY_OWNER }}/{{ .ProjectName }}"
-    description: "This app provides homekit virtual devices defined by Nature Remo."
+    description: |
+      {{ .Env.DESCRIPTION }}
     license: MIT
     skip_upload: auto
     service: |
