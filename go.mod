@@ -1,6 +1,6 @@
 module github.com/legnoh/hap-nature-remo
 
-go 1.26.2
+go 1.26.3
 
 require (
 	github.com/brutella/hap v0.0.35
